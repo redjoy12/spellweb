@@ -17,7 +17,7 @@
  * corpus), NOT the assembled gated packet — the golden set is drafted against the
  * ungated corpus specifically so it can audit the gate (sec. 3.6, sec. 8.1).
  */
-import { writeFileSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openDb } from '../db/client.js';
@@ -109,6 +109,11 @@ function runSelect(): void {
   //    it here would risk silently drifting from what Task 1 actually measured.
   //    Lowest rule_count first (then oracle_id) so the sample is the thinnest
   //    packets in the pool, per the note field's own rationale.
+  //    A new database has no such file yet: measure it first, as --bottom-decile does.
+  if (!existsSync(BOTTOM_DECILE_PATH)) {
+    console.log(`no ${BOTTOM_DECILE_PATH} - measuring the bottom decile first`);
+    runBottomDecile();
+  }
   const bottomDecile = JSON.parse(readFileSync(BOTTOM_DECILE_PATH, 'utf8')) as {
     cards: Array<{ oracle_id: string; name: string; rule_count: number }>;
   };
@@ -208,6 +213,7 @@ function runSelect(): void {
     count: out.length,
     cards: out,
   };
+  mkdirSync(dirname(CANDIDATES_OUT), { recursive: true });
   writeFileSync(CANDIDATES_OUT, JSON.stringify(artifact, null, 2) + '\n', 'utf8');
   console.log();
   console.log(`wrote ${CANDIDATES_OUT}`);
@@ -222,10 +228,9 @@ function runSelect(): void {
 function runBottomDecile(): void {
   const corpusId = currentCorpus();
   const m = measureBottomDecile(db, corpusId, loadPacketPolicy());
-  const previous = new Set(
-    (JSON.parse(readFileSync(BOTTOM_DECILE_PATH, 'utf8')) as { cards: Array<{ oracle_id: string }> })
-      .cards.map((c) => c.oracle_id),
-  );
+  const previous = new Set(existsSync(BOTTOM_DECILE_PATH)
+    ? (JSON.parse(readFileSync(BOTTOM_DECILE_PATH, 'utf8')) as { cards: Array<{ oracle_id: string }> }).cards.map((c) => c.oracle_id)
+    : []);
   const now = new Set(m.cards.map((c) => c.oracle_id));
   const artifact = {
     generated_by: 'src/cli/golden.ts --bottom-decile (plan Task 1, Step 13 method)',
@@ -242,6 +247,7 @@ function runBottomDecile(): void {
     count: m.cards.length,
     cards: m.cards,
   };
+  mkdirSync(dirname(BOTTOM_DECILE_PATH), { recursive: true });
   writeFileSync(BOTTOM_DECILE_PATH, JSON.stringify(artifact, null, 2) + '\n', 'utf8');
   console.log(`corpus ${corpusId}, pool ${m.pool_size} cards`);
   console.log(`threshold ${m.bottom_decile_threshold_rule_count} rules (index ${m.bottom_decile_index}), ${m.cards.length} cards`);

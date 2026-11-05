@@ -16,7 +16,10 @@ try {
 
   console.log('Resolving Scryfall bulk catalog…');
   const entry = selectBulkEntry(await fetchBulkCatalog(), 'default_cards');
-  console.log(`  default_cards updated ${entry.updated_at} (${(entry.size / 1e6).toFixed(0)} MB uncompressed)`);
+  const mb = (n: number) => (n / 1e6).toFixed(0);
+  const size = entry.compressed_size !== undefined ? `${mb(entry.compressed_size)} MB download`
+    : entry.size !== undefined ? `${mb(entry.size)} MB uncompressed` : 'size unknown';
+  console.log(`  default_cards updated ${entry.updated_at} (${size})`);
 
   console.log('Ensuring local bulk file…');
   const gzPath = await ensureBulkFile(entry, CACHE_DIR);

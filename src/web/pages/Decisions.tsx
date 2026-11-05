@@ -835,7 +835,7 @@ function TagMergeCard({ item, n, answer, onSaved }: { item: TagMergeItem; n: num
       {item.b_only && item.b_only.length > 0 && <><div className="dc-sub">Card texts with only “{b}”, not “{a}”:</div>{quotes(item.b_only)}</>}
       {item.effects && item.effects.length > 0 && (
         <>
-          <div className="dc-sub">Effect on the links, measured on a copy of the database (build 16 is the base):</div>
+          <div className="dc-sub">Effect on the links, measured on a copy of the database:</div>
           <table className="dc-tm-effects">
             <thead><tr><th>If the app does this</th><th>Card pairs that get a new link</th><th>Card pairs that lose their link</th><th>“Bad together” pairs</th><th>Test pairs</th></tr></thead>
             <tbody>{item.effects.map((e, i) => (

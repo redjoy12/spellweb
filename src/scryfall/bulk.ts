@@ -11,7 +11,9 @@ export interface BulkEntry {
   updated_at: string;
   download_uri: string;
   jsonl_download_uri: string;
-  size: number;
+  /** Scryfall stopped sending `size` (2026-11); `compressed_size` is the download size. */
+  size?: number;
+  compressed_size?: number;
 }
 
 const headers = { 'User-Agent': USER_AGENT, Accept: 'application/json' };

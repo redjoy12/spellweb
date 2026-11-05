@@ -169,7 +169,7 @@ function Brand() {
     <a className="brand" href="#/">
       <span className="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
       <span className="brand-text">
-        <span className="brand-name">MTGA Deck Builder</span>
+        <span className="brand-name">Spellweb</span>
         <span className="brand-sub">Standard · Best-of-One</span>
       </span>
     </a>

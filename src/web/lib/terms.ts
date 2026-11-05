@@ -105,9 +105,9 @@ export const GLOSSARY = {
   },
   format: {
     term: 'Card-reading format',
-    plain: 'The list of facts that the system can read from card text. Version 14 is current.',
-    more: 'Version 15 would add details to the "needs" side. That would remove most broad links. It is your decision after the demo.',
-    project: 'atom schema v14 / v15',
+    plain: 'The list of facts that the system can read from card text: the tags of config/atom-schema.json.',
+    more: 'A new version of the tag list can add details to the "needs" side. That removes broad links.',
+    project: 'atom schema',
   },
   outdated: {
     term: 'Out of date',

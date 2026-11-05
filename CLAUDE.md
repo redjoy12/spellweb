@@ -29,7 +29,8 @@ TypeScript ESM, Node 24 (`node:sqlite`), Fastify 5 API, React 19 + Vite 6 SPA, V
 npm test                 # unit tests, no card data needed
 npm run test:db          # all tests, on data/app.db (needs a synced pool and your builds)
 npx tsc --noEmit         # typecheck
-npm run sync:cards && npm run sync:rules && npm run generate:atom-schema -- --persist
+npm run sync:cards && npm run sync:rules && npm run seed:atom-schema   # first run; never generate:atom-schema on a new database
+npm run golden -- --select | npm run golden:draft -- --next 10 | --packet <id> | --stage <proposal.json>   # config/golden-set-procedure.md
 npm run extract -- --prepare --batch golden|slice --colours BR | --submit-run <run_id> | --escalate <run_id> | --status
 npm run packet-check -- --run <run_id>
 npm run edge-rules -- --prepare --stage roles --model claude-opus-5-5 | --prepare --stage pairs --set <set> | --submit-set <set> --stage roles|pairs | --debate-prepare|--debate-submit --set <set> --stage roles|pairs | --accept --set <set>
@@ -50,6 +51,7 @@ The code makes no model call and has no API key. Each model step writes packet f
 - Atom extraction: `--prepare` writes `data/extract-batches/run-N/batch-XXX/packet.md`. Dispatch one fresh `atom-extractor` subagent per batch and give it only the batch folder path. It writes `response.json`. Then `--submit-run` checks and stores the answers. The agent runs on Sonnet. If a golden run misses a bar, set the agent to `model: opus`.
 - Edge rules: `edge-rule-deriver` and `edge-rule-debater` run on Opus. Pass `--model claude-opus-5-5` to the roles prepare.
 - Stage B (`--stage pairs`) writes generated agents in `.claude/agents/` (`edge-rule-pair-deriver-g<N>`, `edge-rule-pair-debater`). Do not edit them. A session loads agent files only when it starts, so start a new session after a prepare that writes one. The orchestrator session can run on Haiku, because each agent file sets its own model.
+- Golden set: you draft, the user accepts. Follow `config/golden-set-procedure.md`. Never run `--accept` yourself unless the user tells you to.
 - Disputed items: isolated debater subagents debate them with the packet text only. If they do not agree, the default stays: a disputed role is `none`, and a disputed rule stays out of the build.
 
 ## Rules for changes

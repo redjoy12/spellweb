@@ -99,7 +99,7 @@ The kinds of suggestion:
 - `correct` with `wrong_reason`: the pair is a real link, but the words or the rule of the app are not the reason.
 - A link in the wrong direction is two suggestions: `delete` and `add`.
 
-The rules of the owner:
+The link rules:
 
 - A link is a payoff or an enabler: one card makes an event, a resource or a state that the other card uses or rewards. A resource that both cards only spend, a definition, or the wrong direction is no link.
 - "No" means no link at all. A high cost, a slow play or a small reward makes a link weak, not false.

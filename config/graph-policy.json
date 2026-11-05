@@ -1,6 +1,6 @@
 {
   "packet_budget_bytes": 300000,
-  "stage_b_scope": "live", "_stage_b_scope_note": "spec rev. 10 sec. 5.3: live = a type that a current atom has, or that no earlier schema had; 'all' = every demand and supply type",
+  "stage_b_scope": "live",
   "resources": [
     "mana",
     "life",

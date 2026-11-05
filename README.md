@@ -22,11 +22,19 @@ The code makes no model call and needs no API key. Each model step writes packet
 ## What you need
 
 - Node.js 24 or later. The app uses `node:sqlite`, so Node prints an `ExperimentalWarning`. You can ignore it.
-- Claude Code (the CLI or the desktop app), signed in. The model steps use subagents of Claude Code. The deck chat starts the `claude` CLI, so `claude` must be on your `PATH`.
+- Claude Code, signed in. The model steps use subagents of Claude Code. The deck chat and the build chat start the `claude` CLI with `--effort`, `--tools` and `--setting-sources`, so use a recent version (the app was tested with 2.1.316). Use the native installer, so that `claude` is an executable on your `PATH`. On Windows, an npm install gives `claude.cmd`, and the chat cannot start it.
 - About 1 GB of free disk space.
 - Optional: MTG Arena on the same computer, for the game review.
 
-Each model step uses many subagent turns of your Claude plan. Start with one colour slice, as this guide shows.
+The model steps use many subagent turns of your Claude plan. These counts are from the pool of November 2026, for the black-red slice:
+
+| Step | Size |
+|---|---|
+| Atom extraction | 1,940 cards: 78 batches of 25 cards, and then the voting passes of some cards |
+| Edge rules, Stage A (roles) | 6 parts, 3 passes each: 18 subagent runs on Opus |
+| Edge rules, Stage B (rules) | from 171 to 2,847 subagent runs on Opus, by the number of demand tags in the scope |
+
+Run `npm run edge-rules -- --measure` after Step 4 to get the counts for your own atoms. Start with one colour slice, as this guide shows.
 
 ## Install
 
@@ -47,11 +55,11 @@ npm run sync:rules
 npm run seed:atom-schema
 ```
 
-- `sync:cards` downloads the Scryfall card file (about 150 MB) into `data/cache/` and keeps the cards of the Arena Standard pool. The next run downloads again only when Scryfall has a newer file.
+- `sync:cards` downloads the Scryfall card file (about 80 MB) into `data/cache/` and keeps the cards of the Arena Standard pool. The next run downloads again only when Scryfall has a newer file.
 - `sync:rules` downloads and reads the Comprehensive Rules.
 - `seed:atom-schema` loads the tag list of `config/atom-schema.json` into the database. Run it one time on a new database. Do not use `npm run generate:atom-schema` before the seed: on a new database, that command gives the tag list an earlier version number.
 
-All data goes into `data/app.db`. Git ignores the `data/` folder.
+All data goes into `data/app.db`. Git ignores the `data/` folder. Git also ignores `docs/`, where some commands write their sample and question files.
 
 ## Step 2: Start the app
 
@@ -74,13 +82,15 @@ The golden set is a small set of cards (about 150) with atoms that you check you
 - It selects the CR rules that each packet always contains (the packet kernel). Without a golden set, each packet has only the rules that its card text names.
 - It scores each extraction run, so you can see if the model reads the cards correctly.
 
-To make it:
+The full procedure, with the rules of a reading and the proposal format, is in `config/golden-set-procedure.md`. In short:
 
-1. Run `npm run golden -- --select`. It selects candidate cards.
-2. Open Claude Code in this folder. Ask Claude to draft golden cards with `npm run golden:draft -- --next 10`, `--packet <oracle_id>`, `--lookup` and `--stage <proposal.json>`. Each draft is a file in `data/golden-drafts/`.
+1. Run `npm run golden -- --select`. It selects candidate cards. On a new database, it first measures the cards with the thinnest packets (`--bottom-decile`).
+2. Open Claude Code in this folder. Ask: "Draft the next 10 golden cards. Follow `config/golden-set-procedure.md`." Each draft is a file in `data/golden-drafts/`.
 3. Check each draft on the **Golden set** page (`#/golden`), or with `npm run golden:draft -- --show <oracle_id>`.
 4. Accept a correct draft with `npm run golden:draft -- --accept <oracle_id>`. Add `--complete` only when every clause of the card has its atoms. Reject a wrong draft with `--reject <oracle_id> --note "<reason>"`.
 5. Run `npm run kernel:derive`.
+
+After each `sync:cards` or `sync:rules`, run `npm run golden -- --bottom-decile` and then `--select` again.
 
 ## Step 4: Read the cards (atoms)
 
@@ -95,7 +105,7 @@ To score the reading against your golden set, run `npm run extract -- --prepare 
 
 ## Step 5: Derive the edge rules
 
-The edge rules use Opus. Stage A finds the role of each tag (supply, demand or both). Stage B writes the rules for each demand tag.
+The edge rules use Opus. Stage A finds the role of each tag (supply, demand or both). Stage B writes the rules for each demand tag. Run `npm run edge-rules -- --measure` first: it prints the number of subagent runs of each stage, and makes no set.
 
 1. Run `npm run edge-rules -- --prepare --stage roles --model claude-opus-5-5`. It makes a new rule set and writes pass folders.
 2. Dispatch one fresh `edge-rule-deriver` subagent for each pass folder. Then run `npm run edge-rules -- --submit-set <set> --stage roles`.
@@ -119,7 +129,15 @@ npm run rate-fit
 
 Open **Explore cards** (`#/graph`) to see the links of each card, the atoms and the rule of each link.
 
-To compare two builds, run `npm run build-diff -- <old build> <new build>`. To score a build, make an edge golden set first: `npm run edge-golden -- --sample --round 1`, then `--prepare-round 1`, dispatch `edge-golden-labeler` subagents, and `--submit-round 1`. Then run `npm run graph -- --score --build <id>`.
+To compare two builds, run `npm run build-diff -- <old build> <new build>`.
+
+To score a build, make an edge golden set (labeled card pairs) first:
+
+1. Run `npm run edge-golden -- --sample --round 1`, then `--prepare-round 1`.
+2. Dispatch one fresh `edge-golden-labeler` subagent for each pass folder. Then run `--submit-round 1`.
+3. Run `npm run edge-golden -- --status`. Do more rounds (2, 3, and so on) until the counts meet the targets.
+4. Optional: run `--owner-sample` and answer the pairs on the **Edge golden set** page (`#/edge-golden`). Then run `--review-prepare`, dispatch one `edge-golden-reviewer` subagent for each batch, and run `--review-submit`.
+5. Run `npm run graph -- --score --build <id>`.
 
 ## Step 7: Build decks
 
@@ -148,8 +166,25 @@ npm run deck -- --seed "<card name>" --colours BR --turn 6 --interaction some --
 The API reads the MTG Arena logs at each start and each 30 seconds. It links each game to a deck, and you can talk about a game in the deck chat (panel **Games**).
 
 - In Arena, select the gear icon, then **View Account**, then **Detailed Logs (Plugin Support)**. Then restart Arena.
-- The app reads the usual Arena log folder. To use another folder, set `GAME_LOG_DIR`, or set `log_dir` in `config/game-review.json`.
+- The app reads the usual Arena log folder of Windows (`AppData/LocalLow/Wizards Of The Coast/MTGA`). On another system, or for another folder, set `GAME_LOG_DIR`, or set `log_dir` in `config/game-review.json`.
 - `npm run game-scan` does one scan and prints counts.
+
+## Optional checks
+
+| Command | What it does |
+|---|---|
+| `npm run cr-duplicates` | Finds groups of CR sentences that say almost the same thing. The Overview shows these pairs as "optional questions". |
+| `npm run cr-debate -- --prepare --round <n>` | Writes debate packets for these CR pairs. Dispatch one fresh `edge-rule-debater` subagent for each debater folder, then run `--submit --round <n>`. |
+| `npm run tag-describe -- --prepare` | Writes batches that describe each tag in plain words. The steps are `--check-prepare`, `--debate-prepare` and `--finalise`, each with `--run <n>`. The result goes into `config/tag-descriptions.json`. |
+| `npm run batch:select -- --size 400` | Selects a stratified sample of cards. `npm run extract -- --prepare --batch stratified` prepares the same sample for extraction. |
+
+## The fix-dispatch mod
+
+On a link, **Fix this reason** saves a fix request and writes a brief in `data/fix-requests/`. The mod in `.claude/skills/fix-dispatch` sends the brief to the Claude Code session with the title that you give.
+
+- Each Claude Code session in this folder of the desktop app loads the mod when it starts. The mod asks the API at `http://127.0.0.1:8787` each 20 seconds, so it works only on the default API port.
+- The mod reads the titles of your open sessions, and it sends the brief to the session with the same title.
+- If you do not want this, remove the folder `.claude/skills/fix-dispatch`.
 
 ## The screens
 
@@ -184,6 +219,7 @@ The settings are in `config/`. All values are starting values. Change them to fi
 | `deck-policy.json` | The deck search: weights, the mana base and the warnings |
 | `deck-chat.json`, `deck-chat-prompt.md`, `build-chat-prompt.md` | The model, the effort and the prompts of the two chats |
 | `game-review.json` | The scan time and the Arena log folder |
+| `golden-set-procedure.md` | The steps and the rules of golden set drafting |
 | `link-apply-procedure.md` | The steps of a session that applies link changes |
 
 ## Commands
@@ -234,11 +270,16 @@ npm run test:db
 
 - `npm test` runs the unit tests. Each test file gets its own empty database in a temp folder.
 - `npx tsc --noEmit` checks the types.
-- `npm run test:db` runs all tests on `data/app.db`. Run it after you have a pool, atoms, rules and a build.
+- `npm run test:db` runs all tests on `data/app.db`. Run it after you have a pool, atoms, rules and a build. Before that, some tests fail as expected:
+  - before the golden set and `kernel:derive` (Step 3): "the golden set is non-empty" in `tests/kernel.test.ts`, and the kernel size test in `tests/e2e-pool.test.ts`,
+  - before the first build (Step 6): `tests/cr-duplicates.test.ts`, `tests/deck-export.test.ts`, `tests/edge-packets.test.ts` and `tests/rate-fit.test.ts`.
 
 ## Limits
 
 - The graph and the deck search support only black, red and black-red cards.
 - The card rate is a value from card text only. It is not a win rate, and nobody has checked it against your play. The switch is off by default.
 - The links are hints. Many links are false, and some real links are not there. The corrections of Step 8 make them better.
+- A command that needs an earlier step stops with an error and a stack trace, for example `graph -- --build` with no accepted rule set, or `deck` and `rate-fit` with no build. Do the steps in the order of this guide.
 - Some code comments name design notes that are not in this repo.
+- `npm audit` reports known faults in some development packages. The app runs on your own computer only.
+- The repo has no license file yet.

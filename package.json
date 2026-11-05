@@ -42,7 +42,6 @@
     "seed:atom-schema": "node --no-warnings --import tsx src/cli/seed-atom-schema.ts"
   },
   "dependencies": {
-    "@fastify/static": "^10.1.2",
     "fastify": "^5.10.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -57,5 +56,9 @@
     "typescript": "^5.9.3",
     "vite": "^6.4.3",
     "vitest": "^3.2.7"
+  },
+  "description": "Synergy deck builder for MTG Arena Standard, best of one: make your own card links with Claude Code",
+  "engines": {
+    "node": ">=24"
   }
 }
