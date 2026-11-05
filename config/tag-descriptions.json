@@ -1,0 +1,2037 @@
+{
+  "schema_version": 16,
+  "made_at": "2026-10-24T10:12:59.924Z",
+  "types": {
+    "CARES_ABOUT.ATTACKS": {
+      "description": "The text acts when a creature attacks. The tag records the controller of the attacker, and if the attacker is this creature, another creature or any creature.",
+      "parts": [],
+      "rules": [
+        "603.6a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.COMBAT_DAMAGE_TO_PLAYER": {
+      "description": "The text triggers when a creature deals combat damage to a player. The tag records the controller of that creature, and if it is this creature, another creature or any creature.",
+      "parts": [],
+      "rules": [
+        "510.2",
+        "603.2",
+        "201.5"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.ENTERS_BATTLEFIELD": {
+      "description": "The text acts when a permanent enters the battlefield. The tag records its type, subtype, controller and the zone it comes from, and if it is this permanent, another or any.",
+      "parts": [],
+      "rules": [
+        "603.6a",
+        "400.1"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.LEAVES_BATTLEFIELD": {
+      "description": "The text acts when a permanent moves from the battlefield to any other zone, not only to a graveyard. The tag records its type, subtype, controller, and if it is this permanent.",
+      "parts": [],
+      "rules": [
+        "603.6c",
+        "700.4",
+        "205.3a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.LIFEGAIN": {
+      "description": "The text acts when a player gains life, or checks if a player gained life this turn. The tag records whose life gain counts: yours, an opponent's or any player's.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.PERMANENT_COUNT": {
+      "description": "The text counts permanents of a type, for example to find a number X. The tag records the permanent type, subtype, controller, and if the count leaves out this permanent.",
+      "parts": [],
+      "rules": [
+        "205.3a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.PERMANENT_DIES": {
+      "description": "The text acts when a permanent dies, that is, when it goes from the battlefield to a graveyard. The tag records its type, subtype, controller, and if it is this permanent or another.",
+      "parts": [],
+      "rules": [
+        "700.4",
+        "603.6a",
+        "201.5",
+        "205.3a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.POPULATED_GRAVEYARD": {
+      "description": "The text needs cards in a graveyard: it targets, counts or uses cards there. The tag records whose graveyard: yours, an opponent's, or any graveyard.",
+      "parts": [],
+      "rules": [
+        "400.1",
+        "404.1"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.SPELL_CAST": {
+      "description": "The text acts when a player casts a spell. The tag records the caster, the card types that count or do not count, and if it is this spell, another or any.",
+      "parts": [],
+      "rules": [
+        "205.2a",
+        "201.5"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CARES_ABOUT.UNLOCK": {
+      "description": "The text triggers when you unlock a door (a locked half of a Room): the permanent gets the unlocked designation, from its paid unlock cost or as it enters the battlefield.",
+      "parts": [],
+      "rules": [
+        "709.5e",
+        "709.5h"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "COMBAT.ANTHEM": {
+      "description": "The text changes the power and/or toughness of a set of permanents, not of one. The tag records type, subtype, controller, duration (static or until end of turn) and sign (+, - or mixed).",
+      "parts": [],
+      "rules": [
+        "613.4c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.BASE_PT_SET": {
+      "description": "The text sets the power and toughness of one creature or a set to fixed values, for example \"base power and toughness 1/1\". The tag records the duration.",
+      "parts": [],
+      "rules": [
+        "613.4b",
+        "208.4",
+        "208.4a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.BOAST": {
+      "description": "Boast is an activated ability. You can activate it only if this creature attacked this turn, and only once each turn.",
+      "parts": [],
+      "rules": [
+        "702.142a",
+        "702.142b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.CANT_BLOCK": {
+      "description": "A creature can't block: this creature, or another creature or set. The tag records if it is this creature or another, and the duration: until end of turn, static or other.",
+      "parts": [],
+      "rules": [
+        "509.1b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.DEATHTOUCH": {
+      "description": "Any damage from a deathtouch source destroys a creature with toughness greater than 0. Nonzero combat damage it assigns to a creature counts as lethal when excess damage is checked.",
+      "parts": [],
+      "rules": [
+        "702.2a",
+        "702.2b",
+        "702.2c"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "COMBAT.DECAYED": {
+      "description": "Decayed means this creature can't block. When it attacks, you sacrifice it at end of combat.",
+      "parts": [
+        {
+          "type": "COMBAT.CANT_BLOCK",
+          "when": "always",
+          "params": {
+            "subject": "self",
+            "duration": "static"
+          }
+        },
+        {
+          "type": "CARES_ABOUT.ATTACKS",
+          "when": "always",
+          "params": {
+            "subject": "self"
+          }
+        },
+        {
+          "type": "PRODUCES.SACRIFICE",
+          "when": "always",
+          "params": {
+            "object": "self"
+          }
+        }
+      ],
+      "rules": [
+        "702.147a"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "COMBAT.DEFENDER": {
+      "description": "Defender is a static ability. A creature with defender can't attack.",
+      "parts": [],
+      "rules": [
+        "702.3a",
+        "702.3b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.DOUBLE_STRIKE": {
+      "description": "Double strike is a static ability. A creature with double strike deals combat damage in two steps: in the first strike step and again in the second step.",
+      "parts": [],
+      "rules": [
+        "702.4a",
+        "702.4b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.FIREBENDING": {
+      "description": "Firebending N is a triggered ability: whenever this creature attacks, you add N red mana. You keep this mana until end of combat.",
+      "parts": [
+        {
+          "type": "CARES_ABOUT.ATTACKS",
+          "when": "always",
+          "params": {
+            "subject": "self"
+          }
+        },
+        {
+          "type": "PRODUCES.MANA_PRODUCTION",
+          "when": "always",
+          "params": {
+            "color": "R"
+          }
+        }
+      ],
+      "rules": [
+        "702.189a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.FIRST_STRIKE": {
+      "description": "First strike is a static ability. A creature with first strike deals combat damage in a first, earlier combat damage step, before creatures without first strike or double strike.",
+      "parts": [],
+      "rules": [
+        "702.7a",
+        "702.7b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.FLYING": {
+      "description": "Flying is an evasion ability. Only creatures with flying or reach can block a creature with flying. A creature with flying can block creatures with or without flying.",
+      "parts": [],
+      "rules": [
+        "702.9a",
+        "702.9b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.HASTE": {
+      "description": "Haste is a static ability. A creature with haste can attack and use abilities with the tap or untap symbol in their cost, even if you did not control it since your turn began.",
+      "parts": [],
+      "rules": [
+        "702.10a",
+        "702.10b",
+        "702.10c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.INDESTRUCTIBLE": {
+      "description": "Indestructible is a static ability. A permanent with indestructible can't be destroyed, and lethal damage does not destroy it.",
+      "parts": [],
+      "rules": [
+        "702.12a",
+        "702.12b",
+        "704.5g"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.LIFELINK": {
+      "description": "Lifelink is a static ability. When a source with lifelink deals damage, its controller gains that much life.",
+      "parts": [],
+      "rules": [
+        "702.15a",
+        "702.15b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.MENACE": {
+      "description": "Menace is an evasion ability. A creature with menace can't be blocked except by two or more creatures.",
+      "parts": [],
+      "rules": [
+        "702.111a",
+        "702.111b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.MOBILIZE": {
+      "description": "Whenever this creature attacks, you create N 1/1 red Warrior creature tokens that enter tapped and attacking. You sacrifice those tokens at the beginning of the next end step.",
+      "parts": [
+        {
+          "type": "CARES_ABOUT.ATTACKS",
+          "when": "always",
+          "params": {
+            "subject": "self"
+          }
+        },
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "always",
+          "params": {
+            "token_types": [
+              "creature"
+            ],
+            "subtypes": [
+              "Warrior"
+            ]
+          }
+        },
+        {
+          "type": "PRODUCES.SACRIFICE",
+          "when": "always",
+          "params": {
+            "object_type": "creature"
+          }
+        }
+      ],
+      "rules": [
+        "702.181a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.POWER": {
+      "description": "The card text uses or checks the power of a creature, for example \"a creature with power 4 or greater\". The tag records the power value that the text states.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.REACH": {
+      "description": "A creature with reach can block creatures with flying. A creature with flying cannot be blocked except by creatures with flying or reach.",
+      "parts": [],
+      "rules": [
+        "702.17a",
+        "702.17b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.SNEAK": {
+      "description": "During your declare blockers step, you may cast this spell for its sneak cost and return an unblocked creature you control to its owner's hand. The permanent enters tapped and attacking.",
+      "parts": [
+        {
+          "type": "ENABLES.CAST",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.190a",
+        "702.190b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.STAT_CHANGE": {
+      "description": "Changes the power or toughness of one creature or of a set of creatures. The tag records the sign (+, - or mixed), the duration and the scope (one or set). A set also has its type, its subtype words and its controller.",
+      "parts": [],
+      "rules": [
+        "613.4c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.TOUGHNESS": {
+      "description": "The card text uses or checks the toughness of a creature, for example \"a creature with toughness 4 or greater\". The tag records the toughness value that the text states.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.TRAMPLE": {
+      "description": "When an attacking creature with trample is blocked, its controller assigns lethal damage to the blockers. The controller can then assign the excess damage to the attacked player, planeswalker or battle.",
+      "parts": [],
+      "rules": [
+        "702.19a",
+        "702.19b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.UNBLOCKABLE": {
+      "description": "A creature cannot be blocked, for example \"target creature with power 2 or less can't be blocked this turn\". The text can apply to this creature or to a target creature.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.VIGILANCE": {
+      "description": "A creature with vigilance does not tap when it attacks.",
+      "parts": [],
+      "rules": [
+        "702.20a",
+        "702.20b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "COMBAT.WITHER": {
+      "description": "Damage that a source with wither deals to a creature is not marked on that creature. In place of the damage, that creature gets that many -1/-1 counters.",
+      "parts": [
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "if",
+          "params": {
+            "counter_type": "-1/-1"
+          }
+        }
+      ],
+      "rules": [
+        "702.80a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CONSTRAINTS.ENTERS_TAPPED": {
+      "description": "This permanent enters the battlefield tapped. The tag records if a condition applies, for example \"unless a player has 13 or less life\".",
+      "parts": [],
+      "rules": [
+        "603.6d"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CONSTRAINTS.MANA_SPEND_RESTRICTION": {
+      "description": "The mana that this card produces can be spent only on some things, for example only to cast a creature spell, or only to cast instant and sorcery spells.",
+      "parts": [],
+      "rules": [
+        "106.6"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CONSTRAINTS.TIMING": {
+      "description": "The card text limits when a player can do an action, for example \"Activate only as a sorcery\" or \"only once each turn\".",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "CONSTRAINTS.TYPE_LINE": {
+      "description": "The card text sets or changes the types of an object, for example \"it's an artifact creature\" or \"is all creature types\".",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.ACTIVATE": {
+      "description": "The card has or gives an activated ability: a cost before a colon, then an effect. The tag records if that cost has a mana symbol and if it has the tap symbol.",
+      "parts": [],
+      "rules": [
+        "701.2a",
+        "602.1a",
+        "107.4"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.AFFINITY": {
+      "description": "This spell costs {1} less to cast for each permanent of the stated kind that you control, for example \"Affinity for Gates\".",
+      "parts": [
+        {
+          "type": "ENABLES.COST_REDUCTION",
+          "when": "always",
+          "params": {
+            "object": "spell"
+          }
+        },
+        {
+          "type": "CARES_ABOUT.PERMANENT_COUNT",
+          "when": "always",
+          "params": {
+            "controller": "you"
+          }
+        }
+      ],
+      "rules": [
+        "702.41a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.ATTACH": {
+      "description": "Moves an Aura, Equipment or Fortification from where it is onto an object or player. It cannot attach to an object or player that it could not enchant, equip or fortify.",
+      "parts": [],
+      "rules": [
+        "701.3a",
+        "701.3b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.BARGAIN": {
+      "description": "As an additional cost to cast this spell, you may sacrifice an artifact, enchantment or token. Other text on the card says what happens if you did.",
+      "parts": [
+        {
+          "type": "PRODUCES.SACRIFICE",
+          "when": "may",
+          "params": {
+            "actor": "you"
+          }
+        }
+      ],
+      "rules": [
+        "702.166a",
+        "702.166c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.BEHOLD": {
+      "description": "You reveal a card with the stated quality from your hand, or you choose a permanent with that quality that you control, for example \"behold a Dragon\".",
+      "parts": [
+        {
+          "type": "ENABLES.REVEAL",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.4a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.CAST": {
+      "description": "Lets a player cast a spell: take it from its zone, put it on the stack and pay its costs. Card texts often let you cast a card that was exiled.",
+      "parts": [],
+      "rules": [
+        "701.5a",
+        "701.5b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.CHANGELING": {
+      "description": "This object is every creature type. This ability works in all zones, and also outside the game.",
+      "parts": [],
+      "rules": [
+        "702.73a",
+        "604.3"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.CONVOKE": {
+      "description": "When you cast this spell, you may tap an untapped creature you control in place of one mana of its cost. For colored mana, the creature must have that color.",
+      "parts": [
+        {
+          "type": "ENABLES.TAP_AND_UNTAP",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.51a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.COST_REDUCTION": {
+      "description": "Makes a spell cost less to cast, or makes the activation cost of an ability cost less. The tag records if the reduction is for a spell or an ability.",
+      "parts": [],
+      "rules": [
+        "601.2f",
+        "602.2b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.CRAFT": {
+      "description": "Pay the cost and exile this permanent and the stated materials: return this card to the battlefield transformed, only as a sorcery. The tag records if the cost has a mana symbol or {T}.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {
+            "object": "self",
+            "from_zone": "battlefield"
+          }
+        },
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {
+            "object": "other",
+            "object_controller": "you"
+          }
+        },
+        {
+          "type": "ENABLES.TRANSFORM",
+          "when": "always",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.167a",
+        "702.167b"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "ENABLES.CREW": {
+      "description": "Tap any number of other untapped creatures you control with total power N or more: this Vehicle becomes an artifact creature until end of turn. The tag records the cost kinds.",
+      "parts": [
+        {
+          "type": "ENABLES.TAP_AND_UNTAP",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "CONSTRAINTS.TYPE_LINE",
+          "when": "always",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.122a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.CYCLING": {
+      "description": "Pay the cost and discard this card from your hand to draw a card, or for typecycling, to search for a card of a type. The tag records mana and tap costs.",
+      "parts": [
+        {
+          "type": "PRODUCES.DISCARD",
+          "when": "always",
+          "params": {
+            "object": "self"
+          }
+        },
+        {
+          "type": "PRODUCES.CARD_DRAW",
+          "when": "if",
+          "params": {
+            "amount": 1
+          }
+        },
+        {
+          "type": "ENABLES.SEARCH",
+          "when": "if",
+          "params": {}
+        },
+        {
+          "type": "ENABLES.REVEAL",
+          "when": "if",
+          "params": {}
+        },
+        {
+          "type": "ENABLES.SHUFFLE",
+          "when": "if",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.29a",
+        "702.29e",
+        "702.29f"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.DISGUISE": {
+      "description": "You may cast this card face down for {3} as a 2/2 creature with ward {2} and no name. Later, you may pay its disguise cost to turn it face up.",
+      "parts": [],
+      "rules": [
+        "702.168a",
+        "702.168b",
+        "702.168d"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.DOUBLE": {
+      "description": "Doubles one value: a creature's power or toughness, a player's life total, a number of counters, an amount of mana, or an amount of damage. The tag records which value.",
+      "parts": [],
+      "rules": [
+        "701.10a",
+        "701.10b",
+        "701.10d",
+        "701.10e",
+        "701.10f",
+        "701.10g"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.EMBALM": {
+      "description": "Pay the cost and exile this card from your graveyard: create a white Zombie token copy of it with no mana cost, as a sorcery. The tag records mana and tap costs.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {
+            "object": "self",
+            "from_zone": "graveyard"
+          }
+        },
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "always",
+          "params": {
+            "amount": 1
+          }
+        }
+      ],
+      "rules": [
+        "702.128a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.ENCHANT": {
+      "description": "An Aura with enchant can target and attach only to the kind of object or player that its enchant text names, for example \"Enchant creature\".",
+      "parts": [],
+      "rules": [
+        "702.5a",
+        "702.5c",
+        "702.5d"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.EQUIP": {
+      "description": "Pay the cost: attach this Equipment to one target creature you control, only as a sorcery. The tag records mana and tap costs.",
+      "parts": [
+        {
+          "type": "ENABLES.ATTACH",
+          "when": "always",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.6a",
+        "702.6c",
+        "702.6e"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.EXHAUST": {
+      "description": "Exhaust marks an activated ability that you can activate only once. The tag records whether its cost has mana or {T}.",
+      "parts": [],
+      "rules": [
+        "702.177a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.FLASH": {
+      "description": "You may play this card at any time you could cast an instant. Some card texts give flash only when a condition is true.",
+      "parts": [],
+      "rules": [
+        "702.8a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.FLASHBACK": {
+      "description": "You may cast this instant or sorcery from your graveyard for its flashback cost, not its mana cost. Then it goes to exile when it leaves the stack.",
+      "parts": [],
+      "rules": [
+        "702.34a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.FORETELL": {
+      "description": "During your turn, you may pay {2} and exile this card face down from your hand. After that turn, you may cast it for its foretell cost.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "may",
+          "params": {
+            "object": "self",
+            "from_zone": "hand"
+          }
+        }
+      ],
+      "rules": [
+        "702.143a",
+        "702.143b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.GIFT": {
+      "description": "As you cast this spell, you may choose an opponent. If you do, that player gets the gift, for example a card, a Food, a Treasure, a Fish or an extra turn.",
+      "parts": [
+        {
+          "type": "PRODUCES.CARD_DRAW",
+          "when": "if",
+          "params": {
+            "amount": 1
+          }
+        },
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "if",
+          "params": {
+            "amount": 1,
+            "controller": "opponent"
+          }
+        }
+      ],
+      "rules": [
+        "702.174a",
+        "702.174b",
+        "702.174d",
+        "702.174e",
+        "702.174f",
+        "702.174g",
+        "702.174h",
+        "702.174i"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.HARMONIZE": {
+      "description": "You may cast this card from your graveyard for its harmonize cost, and tap up to one creature you control to reduce that cost by its power. Afterward it goes to exile.",
+      "parts": [],
+      "rules": [
+        "702.180a",
+        "702.180b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.HASTE_GRANT": {
+      "description": "Gives haste to another creature or a set of creatures, so they can attack and use {T} abilities on the turn you get control of them. The tag records who gets haste.",
+      "parts": [],
+      "rules": [
+        "702.10b",
+        "702.10c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.HEXPROOF": {
+      "description": "A permanent or player with hexproof cannot be the target of spells or abilities that opponents control. \"Hexproof from [quality]\" stops only spells and sources of that quality.",
+      "parts": [],
+      "rules": [
+        "702.11b",
+        "702.11c",
+        "702.11d"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.HIDEAWAY": {
+      "description": "When this permanent enters, look at the top N cards of your library. Exile one face down, which you may look at, and put the rest on the bottom in a random order.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {
+            "from_zone": "library"
+          }
+        }
+      ],
+      "rules": [
+        "702.75a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.IMPENDING": {
+      "description": "You may cast this card for its impending cost. Then it enters with N time counters and is not a creature while it has them; remove one counter at each of your end steps.",
+      "parts": [
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "if",
+          "params": {
+            "counter_type": "other"
+          }
+        }
+      ],
+      "rules": [
+        "702.176a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.IMPROVISE": {
+      "description": "For each generic mana in this spell's total cost, you may tap an untapped artifact you control in place of paying that mana.",
+      "parts": [],
+      "rules": [
+        "702.126a",
+        "702.126b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.INFINITY": {
+      "description": "The symbol ∞ comes before an ability. The permanent has that ability only while it is harnessed.",
+      "parts": [],
+      "rules": [
+        "702.186a",
+        "702.186b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.JOB_SELECT": {
+      "description": "When this Equipment enters, create a 1/1 colorless Hero creature token, then attach this Equipment to it.",
+      "parts": [
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "always",
+          "params": {
+            "amount": 1,
+            "token_types": [
+              "creature"
+            ],
+            "subtypes": [
+              "Hero"
+            ]
+          }
+        },
+        {
+          "type": "ENABLES.ATTACH",
+          "when": "always",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.182a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.KICKER": {
+      "description": "As you cast this spell, you may pay an extra kicker cost. If you do, the spell is kicked and gets its kicked effects. Multikicker lets you pay many times.",
+      "parts": [],
+      "rules": [
+        "702.33a",
+        "702.33c",
+        "702.33d",
+        "702.33e"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.MAX_SPEED": {
+      "description": "This object has the stated ability only while your speed is 4. Your speed increases by 1, once each turn, when an opponent loses life during your turn.",
+      "parts": [],
+      "rules": [
+        "702.178a",
+        "702.179a",
+        "702.179d",
+        "702.179e"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.MAYHEM": {
+      "description": "If you discarded this card this turn, you may cast it from your graveyard for its mayhem cost. Mayhem with no cost lets you play it from your graveyard.",
+      "parts": [],
+      "rules": [
+        "702.187a",
+        "702.187b",
+        "702.187c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.OFFSPRING": {
+      "description": "As you cast this spell, you may pay an extra offspring cost. If you do, when the permanent enters, you create a token copy of it that is 1/1.",
+      "parts": [
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "if",
+          "params": {
+            "amount": 1
+          }
+        }
+      ],
+      "rules": [
+        "702.175a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.PARADIGM": {
+      "description": "The spell exiles itself. If it is the first spell with this name that you control to resolve this game, at each of your precombat main phases you may cast a copy of it free.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {
+            "object": "self",
+            "from_zone": "stack"
+          }
+        }
+      ],
+      "rules": [
+        "702.192a"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "ENABLES.PERSIST": {
+      "description": "When this permanent goes from the battlefield to a graveyard with no -1/-1 counters on it, it returns to the battlefield with a -1/-1 counter.",
+      "parts": [
+        {
+          "type": "ENABLES.RECURSION",
+          "when": "if",
+          "params": {}
+        },
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "if",
+          "params": {
+            "counter_type": "-1/-1",
+            "amount": 1
+          }
+        }
+      ],
+      "rules": [
+        "702.79a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.PLAY": {
+      "description": "The card text lets a player play a card: put a land onto the battlefield as a special action, or cast the card as a spell.",
+      "parts": [
+        {
+          "type": "ENABLES.CAST",
+          "when": "if",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.18a",
+        "701.18b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.PLOT": {
+      "description": "During your main phase with an empty stack, you may pay the plot cost and exile this card from your hand. On a later turn, you may cast it from exile without its mana cost.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "may",
+          "params": {
+            "object": "self"
+          }
+        },
+        {
+          "type": "ENABLES.CAST",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.170a",
+        "702.170b",
+        "702.170d",
+        "702.170f"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "ENABLES.POWER_UP": {
+      "description": "An activated ability you can activate only once. If the permanent entered this turn, its mana cost reduces the ability cost. The tag records if the cost has mana or {T}.",
+      "parts": [],
+      "rules": [
+        "702.193a",
+        "702.193b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.PREPARED": {
+      "description": "A permanent with a prepare spell enters prepared or becomes prepared. Prepared is a marker that rules and effects can identify.",
+      "parts": [],
+      "rules": [
+        "722.3a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.PROWESS": {
+      "description": "Each time you cast a noncreature spell, this creature gets +1/+1 until end of turn.",
+      "parts": [
+        {
+          "type": "CARES_ABOUT.SPELL_CAST",
+          "when": "always",
+          "params": {
+            "controller": "you",
+            "excluded_card_types": [
+              "creature"
+            ]
+          }
+        },
+        {
+          "type": "COMBAT.STAT_CHANGE",
+          "when": "always",
+          "params": {
+            "sign": "+",
+            "duration": "until_end_of_turn",
+            "scope": "one"
+          }
+        }
+      ],
+      "rules": [
+        "702.108a",
+        "702.108b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.RECURSION": {
+      "description": "The card text returns a card from a graveyard, for example to a hand. The tag records whose graveyard the card comes from.",
+      "parts": [],
+      "rules": [
+        "400.1"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.REVEAL": {
+      "description": "A player shows one or more cards to all players for a short time. The cards stay in their zone.",
+      "parts": [],
+      "rules": [
+        "701.20a",
+        "701.20b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.RIOT": {
+      "description": "This permanent enters with an additional +1/+1 counter, or, if you do not choose the counter, it gets haste.",
+      "parts": [
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "may",
+          "params": {
+            "counter_type": "+1/+1",
+            "amount": 1
+          }
+        },
+        {
+          "type": "COMBAT.HASTE",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.136a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SACRIFICE_OUTLET": {
+      "description": "The card text lets you sacrifice a permanent, such as a creature or an artifact. The tag records if the sacrifice is free or needs a cost, such as mana or {T}.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SADDLE": {
+      "description": "An activated ability: tap other untapped creatures you control with total power N or more, and this permanent becomes saddled until end of turn. Activate only as a sorcery.",
+      "parts": [
+        {
+          "type": "ENABLES.TAP_AND_UNTAP",
+          "when": "always",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.171a",
+        "702.171b",
+        "702.171c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SCRY": {
+      "description": "You look at the top N cards of your library. You put any number on the bottom and the rest on top, in any order.",
+      "parts": [],
+      "rules": [
+        "701.22a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SEARCH": {
+      "description": "A player looks at all cards in a zone, such as a library, and finds cards that match a given description.",
+      "parts": [],
+      "rules": [
+        "701.23a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SHUFFLE": {
+      "description": "A player puts the cards of a library (or a face-down pile) in a random order, so that no player knows the order.",
+      "parts": [],
+      "rules": [
+        "701.24a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SOLVED": {
+      "description": "A Case ability that works only while the Case is solved. The card texts with this tag also include the condition that solves the Case.",
+      "parts": [],
+      "rules": [
+        "702.169a",
+        "702.169b",
+        "702.169c",
+        "702.169d"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SPREE": {
+      "description": "A modal spell: you choose one or more modes and pay the additional cost of each mode that you choose.",
+      "parts": [],
+      "rules": [
+        "702.172a",
+        "700.2"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.START_YOUR_ENGINES": {
+      "description": "If you control this permanent and have no speed, your speed becomes 1. Then, once each turn, opponents losing life during your turn increases your speed by 1, to 4.",
+      "parts": [],
+      "rules": [
+        "702.179a",
+        "702.179d",
+        "702.179e"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.STATION": {
+      "description": "An activated ability: tap another untapped creature you control to put charge counters on this permanent, equal to that creature's power. Activate only as a sorcery.",
+      "parts": [
+        {
+          "type": "ENABLES.TAP_AND_UNTAP",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "always",
+          "params": {
+            "counter_type": "other"
+          }
+        }
+      ],
+      "rules": [
+        "702.184a",
+        "702.184c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.STORIED": {
+      "description": "When you control three or more artifacts, Sagas or legendary permanents, you get an enduring story for the rest of the game. Enduring story is a marker.",
+      "parts": [],
+      "rules": [
+        "702.195a",
+        "702.195b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.STORM": {
+      "description": "When you cast this spell, copy it once for each other spell cast before it this turn. You may choose new targets for the copies.",
+      "parts": [
+        {
+          "type": "CARES_ABOUT.SPELL_CAST",
+          "when": "always",
+          "params": {
+            "controller": "you",
+            "subject": "self"
+          }
+        },
+        {
+          "type": "PRODUCES.COPY_SPELL",
+          "when": "always",
+          "params": {
+            "object": "spell"
+          }
+        }
+      ],
+      "rules": [
+        "702.40a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.SUSPECT": {
+      "description": "A creature becomes suspected until it leaves the battlefield. While suspected, it has menace and cannot block.",
+      "parts": [
+        {
+          "type": "COMBAT.MENACE",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "COMBAT.CANT_BLOCK",
+          "when": "always",
+          "params": {
+            "duration": "other"
+          }
+        }
+      ],
+      "rules": [
+        "701.60a",
+        "701.60c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.TAP_AND_UNTAP": {
+      "description": "The card text taps an untapped permanent (turns it sideways) or untaps a tapped permanent, or stops a permanent from untapping.",
+      "parts": [],
+      "rules": [
+        "701.26a",
+        "701.26b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.TEAMWORK": {
+      "description": "As an additional cost to cast this spell, you may tap creatures you control with total power N or more. Other text can check if you paid this cost.",
+      "parts": [
+        {
+          "type": "ENABLES.TAP_AND_UNTAP",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.194a",
+        "702.194b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.TIERED": {
+      "description": "A modal spell: you choose one mode and pay the additional cost of that mode.",
+      "parts": [],
+      "rules": [
+        "702.183a",
+        "700.2"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.TRANSFORM": {
+      "description": "The card text turns a double-faced permanent over so that its other face is up. Other permanents cannot transform.",
+      "parts": [],
+      "rules": [
+        "701.27a",
+        "701.27c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.UNTAPPER": {
+      "description": "The card text untaps a permanent, such as a creature, a land or an artifact.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.WARD": {
+      "description": "When a spell or ability of an opponent targets this permanent, ward counters that spell or ability unless that player pays the ward cost.",
+      "parts": [
+        {
+          "type": "ENABLES.COUNTER",
+          "when": "if",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.21a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.WARP": {
+      "description": "You can cast this card from your hand for its warp cost. Then you exile it at the next end step, and later you can cast it from exile.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "if",
+          "params": {
+            "object": "self",
+            "from_zone": "battlefield"
+          }
+        },
+        {
+          "type": "ENABLES.CAST",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "702.185a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.WATERBEND": {
+      "description": "You pay the waterbend cost. For each generic mana in that cost, you can tap an untapped artifact or creature you control rather than pay that mana.",
+      "parts": [
+        {
+          "type": "ENABLES.TAP_AND_UNTAP",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.67a",
+        "701.67b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "ENABLES.WEB_SLINGING": {
+      "description": "You can cast this spell for its web-slinging cost if you also return a tapped creature you control to its owner's hand. This replaces its mana cost.",
+      "parts": [],
+      "rules": [
+        "702.188a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "INTERACTION.GAIN_CONTROL": {
+      "description": "You gain control of a permanent or a set of permanents. The tag records how long the control lasts: until end of turn, static, or other.",
+      "parts": [],
+      "rules": [
+        "613.1b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "INTERACTION.GRAVEYARD_HATE": {
+      "description": "The card text acts on cards in a graveyard, for example it exiles them. The tag records whose graveyard: yours, an opponent's, or any graveyard.",
+      "parts": [],
+      "rules": [
+        "400.1"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "INTERACTION.PROTECTION": {
+      "description": "Sources with the stated quality cannot target, enchant, equip or block a permanent or player with protection. The game prevents all damage from those sources to it.",
+      "parts": [],
+      "rules": [
+        "702.16a",
+        "702.16b",
+        "702.16c",
+        "702.16d",
+        "702.16e",
+        "702.16f"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "INTERACTION.SWEEPER": {
+      "description": "The card text acts on all creatures or a large set of them at the same time: it destroys them, deals damage to them, or gives them -N/-N.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "INTERACTION.TARGETED_REMOVAL": {
+      "description": "The card text removes an object that a player chooses as a target, for example with destroy or damage. The tag records the object type, its controller and the kind of removal (destroy, exile, damage, minus or other).",
+      "parts": [],
+      "rules": [
+        "115.1",
+        "115.1a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.AIRBEND": {
+      "description": "Airbend exiles one or more permanents or spells. While each exiled card stays in exile, its owner can cast it for {2} instead of its mana cost.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "ENABLES.CAST",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.65a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.AMASS": {
+      "description": "Amass N puts N +1/+1 counters on an Army creature you control. If you control no Army, it first creates a 0/0 black Army creature token.",
+      "parts": [
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "if",
+          "params": {
+            "amount": 1,
+            "token_types": [
+              "creature"
+            ],
+            "controller": "you"
+          }
+        },
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "always",
+          "params": {
+            "counter_type": "+1/+1"
+          }
+        }
+      ],
+      "rules": [
+        "701.47a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.BLIGHT": {
+      "description": "Blight N puts N -1/-1 counters on a creature you control. If you control no creature for the counters, you cannot choose to blight.",
+      "parts": [
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "always",
+          "params": {
+            "counter_type": "-1/-1"
+          }
+        }
+      ],
+      "rules": [
+        "701.68a",
+        "701.68b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.CARDS_TO_GRAVEYARD": {
+      "description": "The card text puts cards into a graveyard with plain words, not with a keyword such as mill or surveil. The tag records the number of cards and whose graveyard.",
+      "parts": [],
+      "rules": [
+        "400.1"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.CARD_DRAW": {
+      "description": "The card text makes a player draw one or more cards. The tag records the number of cards.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.CLOAK": {
+      "description": "Cloak puts a card onto the battlefield face down as a 2/2 creature with ward {2}. You can turn a creature card face up for its mana cost.",
+      "parts": [
+        {
+          "type": "ENABLES.WARD",
+          "when": "always",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.58a",
+        "701.58b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.COLLECT_EVIDENCE": {
+      "description": "Collect evidence N exiles any number of cards from your graveyard with a total mana value of N or more. You cannot choose it without enough cards.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {
+            "from_zone": "graveyard",
+            "object_controller": "you",
+            "targeted": false
+          }
+        }
+      ],
+      "rules": [
+        "701.59a",
+        "701.59b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.CONNIVE": {
+      "description": "The permanent's controller draws a card, then discards a card. If the discarded card is not a land, the permanent gets a +1/+1 counter. Connive N uses N cards.",
+      "parts": [
+        {
+          "type": "PRODUCES.CARD_DRAW",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "PRODUCES.DISCARD",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "if",
+          "params": {
+            "counter_type": "+1/+1"
+          }
+        }
+      ],
+      "rules": [
+        "701.50a",
+        "701.50d"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.COPY_SPELL": {
+      "description": "The card text puts a copy of a spell or ability onto the stack. The copy is not cast. The tag records if it copies a spell or an ability.",
+      "parts": [],
+      "rules": [
+        "707.10"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.COUNTER_PRODUCTION": {
+      "description": "The card text puts counters on a permanent. The tag records the counter name (+1/+1, -1/-1 or a name such as stun) and the number of counters.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.CREATE": {
+      "description": "The card text puts tokens onto the battlefield. The tag records the number, the card types and subtypes of the tokens, and the player who creates and controls them.",
+      "parts": [],
+      "rules": [
+        "701.7a",
+        "111.2",
+        "111.3",
+        "111.4"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.DAMAGE": {
+      "description": "The card text deals damage to a creature, a player or another target. The tag records the amount of damage.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.DESTROY": {
+      "description": "Destroy moves a permanent from the battlefield to its owner's graveyard. The tag records the object, its type, its controller, and if the text targets it.",
+      "parts": [],
+      "rules": [
+        "701.8a",
+        "115.1",
+        "115.10"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.DISCARD": {
+      "description": "A player moves a card from their hand to their graveyard. The tag records who discards, the permitted and excluded card types, and how the card is chosen.",
+      "parts": [],
+      "rules": [
+        "701.9a",
+        "701.9b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.DISCOVER": {
+      "description": "Discover N exiles your top library cards until a nonland card with mana value N or less appears. You can cast it free, or put it into your hand.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "always",
+          "params": {
+            "from_zone": "library",
+            "targeted": false
+          }
+        },
+        {
+          "type": "ENABLES.CAST",
+          "when": "may",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.57a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.EARTHBEND": {
+      "description": "Earthbend N turns a land you control into a 0/0 haste creature with N +1/+1 counters. If it dies or is exiled, it returns to the battlefield tapped.",
+      "parts": [
+        {
+          "type": "ENABLES.HASTE_GRANT",
+          "when": "always",
+          "params": {
+            "controller": "you"
+          }
+        },
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "always",
+          "params": {
+            "counter_type": "+1/+1"
+          }
+        },
+        {
+          "type": "ENABLES.RECURSION",
+          "when": "if",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.66a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.EMPOWER_JACE": {
+      "description": "If you control no Jace planeswalker token, you create a blue Jace planeswalker token with 0 loyalty. Then you put N loyalty counters on a Jace planeswalker token you control.",
+      "parts": [
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "if",
+          "params": {
+            "amount": 1,
+            "token_types": [
+              "planeswalker"
+            ],
+            "subtypes": [
+              "Jace"
+            ]
+          }
+        },
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "always",
+          "params": {
+            "counter_type": "other"
+          }
+        }
+      ],
+      "rules": [
+        "701.71a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.ENDURE": {
+      "description": "The controller of the permanent puts N +1/+1 counters on it, or creates an N/N white Spirit creature token. Endure 0 does nothing.",
+      "parts": [
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "if",
+          "params": {
+            "counter_type": "+1/+1"
+          }
+        },
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "if",
+          "params": {
+            "amount": 1,
+            "token_types": [
+              "creature"
+            ],
+            "subtypes": [
+              "Spirit"
+            ]
+          }
+        }
+      ],
+      "rules": [
+        "701.63a",
+        "701.63b"
+      ],
+      "status": "debated",
+      "source": "checker"
+    },
+    "PRODUCES.EXILE": {
+      "description": "Moves an object to the exile zone from its zone. The tag records the object, its card type, its controller, if it is a target, and the zone it leaves.",
+      "parts": [],
+      "rules": [
+        "701.13a",
+        "205.2a",
+        "115.1",
+        "115.10"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.EXPLORE": {
+      "description": "The controller reveals the top card of their library. A land card goes to their hand. Otherwise the permanent gets a +1/+1 counter, and the card may go to the graveyard.",
+      "parts": [
+        {
+          "type": "ENABLES.REVEAL",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "PRODUCES.COUNTER_PRODUCTION",
+          "when": "if",
+          "params": {
+            "counter_type": "+1/+1",
+            "amount": 1
+          }
+        },
+        {
+          "type": "PRODUCES.CARDS_TO_GRAVEYARD",
+          "when": "if",
+          "params": {
+            "amount": 1
+          }
+        }
+      ],
+      "rules": [
+        "701.44a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.FIGHT": {
+      "description": "Two creatures fight: each one deals damage equal to its power to the other. This damage is not combat damage.",
+      "parts": [
+        {
+          "type": "PRODUCES.DAMAGE",
+          "when": "always",
+          "params": {}
+        }
+      ],
+      "rules": [
+        "701.14a",
+        "701.14d"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.FORAGE": {
+      "description": "You exile three cards from your graveyard, or you sacrifice a Food. Card texts use it as an effect or as a cost.",
+      "parts": [
+        {
+          "type": "PRODUCES.EXILE",
+          "when": "may",
+          "params": {
+            "from_zone": "graveyard"
+          }
+        },
+        {
+          "type": "PRODUCES.SACRIFICE",
+          "when": "may",
+          "params": {
+            "actor": "you"
+          }
+        }
+      ],
+      "rules": [
+        "701.61a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.INVESTIGATE": {
+      "description": "Creates a Clue token. A Clue is a colorless artifact token with \"{2}, Sacrifice this token: Draw a card.\"",
+      "parts": [
+        {
+          "type": "PRODUCES.CREATE",
+          "when": "always",
+          "params": {
+            "amount": 1,
+            "token_types": [
+              "artifact"
+            ],
+            "subtypes": [
+              "Clue"
+            ]
+          }
+        }
+      ],
+      "rules": [
+        "701.16a",
+        "111.10f"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.LIFEGAIN": {
+      "description": "The card text makes a player gain life. The tag records the amount of life, as a number or as a text value such as X.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.LIFE_LOSS": {
+      "description": "A player loses life. The tag records the amount of life, as a number or as a text value such as X, and the player: you, an opponent, a target player or each player.",
+      "parts": [],
+      "rules": [
+        "119.3"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.MANA_PRODUCTION": {
+      "description": "Adds mana. The tag records the mana symbol it adds: W, U, B, R, G or C, or any when the text lets you choose the colour.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.MANIFEST_DREAD": {
+      "description": "You look at the top two cards of your library. You put one onto the battlefield face down as a 2/2 creature, and the other into your graveyard.",
+      "parts": [
+        {
+          "type": "PRODUCES.MANIFEST",
+          "when": "always",
+          "params": {}
+        },
+        {
+          "type": "PRODUCES.CARDS_TO_GRAVEYARD",
+          "when": "always",
+          "params": {
+            "whose": "you"
+          }
+        }
+      ],
+      "rules": [
+        "701.62a",
+        "701.40a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.MELD": {
+      "description": "Puts the two cards of one meld pair onto the battlefield, back faces up and combined into one permanent. Only two cards of the same meld pair can meld.",
+      "parts": [],
+      "rules": [
+        "701.42a",
+        "701.42b"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.MILL": {
+      "description": "A player puts cards from the top of their library into their graveyard. The tag records the number of cards and the player who mills.",
+      "parts": [],
+      "rules": [
+        "701.17a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.OPPONENT_LIFE_LOSS": {
+      "description": "The card text makes an opponent lose life. The tag records the amount of life, as a number or as a text value such as X.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.SACRIFICE": {
+      "description": "A player moves a permanent they control from the battlefield to its owner's graveyard. The tag records the permanent, its type and the player who sacrifices.",
+      "parts": [],
+      "rules": [
+        "701.21a"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.SACRIFICE_FODDER": {
+      "description": "Creates a permanent for a later sacrifice, for example a token with \"At the beginning of the end step, sacrifice this token.\"",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.SELF_LIFE_LOSS": {
+      "description": "The card text makes its controller lose life. The tag records the amount of life, as a number or as a text value such as X.",
+      "parts": [],
+      "rules": [
+        "119.3"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.SURVEIL": {
+      "description": "You look at the top N cards of your library. You put any number into your graveyard and the rest back on top in any order. Surveil 0 does nothing.",
+      "parts": [
+        {
+          "type": "PRODUCES.CARDS_TO_GRAVEYARD",
+          "when": "may",
+          "params": {
+            "whose": "you"
+          }
+        }
+      ],
+      "rules": [
+        "701.25a",
+        "701.25c"
+      ],
+      "status": "agreed",
+      "source": "writer"
+    },
+    "PRODUCES.TOKENS": {
+      "description": "Creates tokens with plain card text, not with a named keyword action. The tag records the number, card types and subtypes of the tokens, and the player who gets them.",
+      "parts": [],
+      "rules": [],
+      "status": "agreed",
+      "source": "writer"
+    }
+  }
+}

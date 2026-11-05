@@ -1,0 +1,19 @@
+{
+
+  "layout_aliases": {
+    "split": "Split",
+    "flip": "Flip",
+    "leveler": "Leveler",
+    "transform": "Double-Faced",
+    "modal_dfc": "Double-Faced",
+    "meld": "Double-Faced",
+    "saga": "Saga",
+    "adventure": "Adventurer",
+    "class": "Class",
+    "case": "Case",
+    "prototype": "Prototype",
+    "omen": "Omen",
+    "station": "Station",
+    "prepare": "Preparation"
+  }
+}

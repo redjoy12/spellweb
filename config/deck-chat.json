@@ -1,0 +1,8 @@
+{
+  "model": "opus",
+  "effort": "high",
+  "fallback_model": "sonnet",
+  "rewrites": 1,
+  "find_cards_limit": 15,
+  "link_check_max": 40
+}

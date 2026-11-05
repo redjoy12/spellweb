@@ -1,0 +1,5 @@
+{
+  "name": "fix-dispatch",
+  "version": "0.1.0",
+  "description": "Sends each queued \"Fix this reason\" brief of the MTGA deck builder to the Claude session with its title."
+}

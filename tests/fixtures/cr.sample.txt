@@ -1,0 +1,128 @@
+Magic: The Gathering Comprehensive Rules
+
+These rules are effective as of June 19, 2026.
+
+Introduction
+
+This document is the ultimate authority for Magic: The Gathering competitive game play.
+
+Contents
+
+1. Game Concepts
+100. General
+2. Parts of a Card
+205. Type Line
+7. Additional Rules
+701. Keyword Actions
+702. Keyword Abilities
+714. Saga Cards
+716. Class Cards
+717. Attraction Cards
+719. Case Cards
+
+Glossary
+
+Credits
+
+1. Game Concepts
+
+100. General
+
+100.1. These Magic rules apply to any Magic game with two or more players.
+
+100.1a A two-player game is a game that begins with only two players.
+
+100.2. To play, each player needs their own deck of traditional Magic cards.
+
+121. Drawing a Card
+
+121.1. A player draws a card by putting the top card of their library into their hand.
+
+2. Parts of a Card
+
+205. Type Line
+
+205.3. The card's subtypes, if any, appear to the right of the long dash.
+
+205.3g Artifacts have their own unique set of subtypes. The artifact types are Attraction (see rule 717), Equipment (see rule 301.5), Fortification (see rule 301.6), and Vehicle (see rule 301.7).
+
+205.3h Enchantments have their own unique set of subtypes. The enchantment types are Aura (see rule 303.4), Background, Case (see rule 719), Class (see rule 716), Role (see rule 303.7), Room, Saga (see rule 714), and Shrine.
+
+205.3q Battles have their own unique set of subtypes. The battle types are Siege.
+
+3. Card Types
+
+301. Artifacts
+
+301.5. Equipment is a subtype of artifact.
+
+303. Enchantments
+
+303.4. Auras are enchantments with the enchant keyword ability.
+
+7. Additional Rules
+
+701. Keyword Actions
+
+701.1. Most actions described in a card's rules text use the standard English definitions.
+
+701.16. Sacrifice
+
+701.16a To sacrifice a permanent, its controller moves it from the battlefield to that player's graveyard.
+
+702. Keyword Abilities
+
+702.2. Deathtouch
+
+702.2a Deathtouch is a static ability.
+
+702.2b A creature with toughness greater than 0 that's been dealt damage by a source with deathtouch is destroyed.
+
+702.14. Landwalk
+
+702.14a Landwalk is a generic term for a group of abilities.
+
+702.186. ∞ (Infinity)
+
+702.186a ∞ (the mathematical symbol for infinity) is a keyword found on Infinity cards.
+
+702.444. Testlink
+
+702.444a A testlink ability. See rule 100.
+
+714. Saga Cards
+
+714.1. Each Saga card has a lore counter ability.
+
+716. Class Cards
+
+716.1. Each Class card has one or more level abilities.
+
+717. Attraction Cards
+
+717.1. Attraction cards are a subset of artifact cards used in the Unfinity set. See rule 100.
+
+719. Case Cards
+
+719.1. Each Case card has a suspect ability and a solve ability.
+
+Glossary
+
+Ability Word
+An italicized word with no rules meaning that ties together abilities on different cards that have similar functionality. See rule 207.2c.
+
+Forestwalk
+See Landwalk.
+
+Long Dash
+The symbol that separates a permanent's card types from its subtypes on the type line. See rule 205.3g.
+
+Megamorph
+A keyword ability. See rule 702.37, "Morph."
+
+Sacrifice
+To move a permanent from the battlefield to its owner's graveyard. See rule 701.16, "Sacrifice."
+
+Credits
+
+Magic: The Gathering was designed by Richard Garfield.

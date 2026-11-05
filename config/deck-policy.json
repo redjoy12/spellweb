@@ -1,0 +1,42 @@
+{
+  "deck_size": 60,
+  "max_copies": 4,
+  "score": {
+    "hub_power": 0.5,
+    "anti_penalty": 0.25,
+    "seed_weight": 3, "_seed_weight_note": "a pair with a seed counts this many times in the fit, so the deck stays around the seeds. Measured in docs/phase-4-sample-decks.md sec. 7",
+    "weak_factor": 0.25, "_weak_factor_note": "the part of its weight that a pair keeps when the newest owner answer is 'Yes, but weak'. The pair stays a link. Measured in docs/schema-v20-results.md sec. 20",
+    "rate_weight": 0.046, "_rate_weight_note": "the fit that 1 mana of card rate adds when the goal has use_rate. Provisional: 10% of 0.46, the median best fit of the replay goals, because 20% replaced the links. The rate has passed no check yet, so the switch is off by default. Measured in docs/card-rate-results.md, Task 5",
+    "owner_link_weight": 0.373, "_owner_link_weight_note": "the weight of an owner link that an apply session adds (link review design sec. 8). Provisional: the median weight of all confirmed + pairs of build 36. A weak owner link keeps weak_factor of it"
+  },
+  "search": {
+    "beam_width": 12,
+    "mana_loops": 3
+  },
+  "copies": {
+    "seed_min": 1, "_seed_min_note": "the copies that each seed keeps; above this a seed has the copies of its third by fit, as any other card",
+    "thirds": [4, 3, 2],
+    "legendary_max": 2
+  },
+  "quotas": {
+    "interaction": { "none": 0, "some": 6, "heavy": 12 },
+    "min_creatures_default": 14,
+    "quota_card_copies": 2, "_quota_card_copies_note": "the copies that a quota counts for one card: the lowest copies of the copies rule, because the copies come after the quota fill"
+  },
+  "mana": {
+    "start_lands": 24, "_start_lands_note": "the land count of the first loop only; the loop then sets it",
+    "lands_min": 20,
+    "lands_max": 26,
+    "turn_percentile": 0.75,
+    "turn_min": 2,
+    "turn_max": 6,
+    "land_probability": 0.6,
+    "colour_probability": 0.8,
+    "cards_seen_on_turn_0": 6, "_cards_seen_note": "on the play: the top 6 + T cards on turn T",
+    "dual_land_copies": 4,
+    "basic_lands": { "B": "Swamp", "R": "Mountain" }
+  },
+  "export": {
+    "name_form": { "default": "full" }, "_name_form_note": "full = the name in the cards table; front = the name of face 0. A key of a layout overrides the default. The first import decides (design sec. 10)."
+  }
+}

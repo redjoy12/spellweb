@@ -1,0 +1,8 @@
+{
+
+  "crossref_depth": 1,
+
+  "min_term_length": 3,
+
+  "strip_suffixes": ["s", "es", "ed", "d", "ing"]
+}

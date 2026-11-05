@@ -1,0 +1,44 @@
+{
+  "packet_budget_bytes": 300000,
+  "stage_b_scope": "live", "_stage_b_scope_note": "spec rev. 10 sec. 5.3: live = a type that a current atom has, or that no earlier schema had; 'all' = every demand and supply type",
+  "resources": [
+    "mana",
+    "life",
+    "opponent_life",
+    "damage",
+    "cards_in_hand",
+    "cards_in_graveyard",
+    "permanents",
+    "counters",
+    "other"
+  ],
+  "weights": {
+    "grade": { "confirmed": 1.0, "plausible": 0.5 },
+    "repeat": { "engine": 1.0, "other": 0.5 },
+    "cost_per_mv": 0.1,
+    "specificity": true
+  },
+  "cycles": { "max_length": 4, "top_k": 50, "budget": 200000 },
+  "golden": {
+    "round_size": 30,
+    "cap": 300, "_cap_note": "i2-ok: a pair count, not a rule",
+    "shared_term_max_share": 0.1,
+    "batch_size": 10,
+    "targets": {
+      "synergy": 40,
+      "synergy_per_cares_about": 3,
+      "anti": 15,
+      "none": 30,
+      "param_gap": 15,
+      "unrecorded_restriction": 10
+    },
+    "top_weight": 20,
+    "owner_sample": 20,
+    "owner_correction_limit": 4
+  },
+  "sweep": { "top_share": 0.1 },
+  "batch_part_rules": [
+    { "rule": "701.21a", "types": ["ENABLES.BARGAIN", "COMBAT.DECAYED", "COMBAT.MOBILIZE"], "_note": "i2-ok: the action rule of the sacrifice that these CR keyword texts name" }
+  ],
+  "excluded_rules": []
+}

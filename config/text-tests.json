@@ -1,0 +1,102 @@
+{
+  "_comment": "Mechanical text tests for ability groups (Phase 3 spec sec. 4.2, plan D2). A cr_quote entry stores a lookup term and a verbatim quote, never a rule number; the build resolves the rule by term lookup and checks each quote. A change to a test increments tests_version. The owner approves a version before npm run graph -- --groups runs (plan D14, Task 1 Step 6a).",
+  "tests_version": 1,
+  "owner_approved_version": 1,
+  "owner_approved_sha": "2589d7acfbc9a543419dff6c12f5313f65a7ec51b16ff63787edc6b2250fb145",
+  "_approval_comment": "Owner approval of 2026-10-10 in chat: approve the text tests, go with your recommendations. The sha covers tests_version and tests.",
+  "tests": [
+    {
+      "test": "reminder_strip",
+      "pattern": { "remove_between": ["(", ")"] },
+      "basis": "project_decision",
+      "cr": [
+        { "lookup": "reminder text", "quote": "Reminder text is italicized text within parentheses that summarizes a rule that applies to that card." }
+      ],
+      "decision": {
+        "reason": "The quote states that reminder text is within parentheses. It does not state that each text within parentheses is reminder text, and oracle text has no italics. The owner decides if the quote is a sufficient basis.",
+        "gap_kind": "test_decision"
+      }
+    },
+    {
+      "test": "prefix_strip",
+      "pattern": { "prefix_ends_with": " — ", "refuse_when_prefix": ["starts_with_trigger_word", "has_activated_separator", "."] },
+      "basis": "project_decision",
+      "decision": {
+        "reason": "The CR defines ability words and flavor words by italics. Oracle text has no italics, so the long dash is the project marker of a prefix. The text before the dash is not removed when it starts with a trigger word, contains the activated separator or contains a period: such text is ability text, not a prefix. The gap report counts each refused prefix.",
+        "gap_kind": "test_decision"
+      }
+    },
+    {
+      "test": "triggered",
+      "pattern": { "starts_with_word": ["When", "Whenever", "At"], "case_insensitive": true },
+      "basis": "cr_quote",
+      "cr": [
+        { "lookup": "triggered ability", "quote": "Triggered abilities begin with the word \"when,\" \"whenever,\" or \"at.\"" }
+      ],
+      "decision": {
+        "reason": "The test uses the start of the stripped text only. A group that has a trigger word inside its text, but not at its start, is counted.",
+        "gap_kind": "trigger_word_inside"
+      }
+    },
+    {
+      "test": "activated",
+      "pattern": { "separator": ":", "outside": ["quotation_marks", "parentheses"], "quotation_marks": [["\"", "\""], ["“", "”"]] },
+      "basis": "cr_quote",
+      "cr": [
+        { "lookup": "activated ability", "quote": "They are written as \"[Cost]: [Effect.] [Activation instructions (if any).]\"" },
+        { "lookup": "activation cost", "quote": "Everything that appears before the colon in an activated ability's text." }
+      ],
+      "decision": {
+        "reason": "The quotation-mark rule: a colon inside quotation marks does not make the group activated. No CR quote states this.",
+        "gap_kind": "test_decision"
+      }
+    },
+    {
+      "test": "mana_symbols",
+      "pattern": { "open": "{", "close": "}", "unknown_if_contains": "/" },
+      "basis": "cr_quote",
+      "cr": [
+        { "lookup": "mana symbol", "quote": "The mana symbols are {W}, {U}, {B}, {R}, {G}, and {C}" }
+      ],
+      "decision": {
+        "reason": "The tap symbol is removed first. The mana letters are the single-letter symbols in the quote. A symbol with another letter is unknown. A number symbol {N} counts as N mana: no CR quote states this amount. A symbol that contains a slash (a hybrid symbol) makes the count unknown: its count is not defined in the packet.",
+        "gap_kind": "test_decision"
+      }
+    },
+    {
+      "test": "tap_symbol",
+      "pattern": { "symbol": "{T}" },
+      "basis": "cr_quote",
+      "cr": [
+        { "lookup": "tap symbol", "quote": "The tap symbol is {T}." }
+      ]
+    },
+    {
+      "test": "timing_limit",
+      "pattern": { "family": "CONSTRAINTS", "type_key": "TIMING" },
+      "basis": "project_decision",
+      "decision": {
+        "reason": "TIMING has no params in schema v14. The test treats each TIMING atom as a possible per-turn limit.",
+        "gap_kind": "test_decision"
+      }
+    },
+    {
+      "test": "turn_word",
+      "pattern": { "word": "turn", "case_insensitive": true },
+      "basis": "project_decision",
+      "decision": {
+        "reason": "A limit can be in text that the schema does not record. A group with the word and no per-turn limit gets unknown_limit.",
+        "gap_kind": "test_decision"
+      }
+    },
+    {
+      "test": "cost_residue",
+      "pattern": { "remove": ["mana_symbols", "tap_symbol", "cost_atom_spans", ",", " "] },
+      "basis": "project_decision",
+      "decision": {
+        "reason": "Spec sec. 4.5 does not say how punctuation counts. After the removals, any other text that stays gives cost_unparsed. All brace symbols are removed, also a symbol that makes the mana count unknown: the unknown count is recorded on its own (cost.mana and the gap report).",
+        "gap_kind": "test_decision"
+      }
+    }
+  ]
+}

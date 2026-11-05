@@ -1,0 +1,5 @@
+{
+  "passes": 3,
+  "max_counted_clauses": 5,
+  "max_oracle_chars": 350, "_i2": "i2-ok: a character count, not a rule number"
+}

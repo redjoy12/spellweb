@@ -1,0 +1,177 @@
+[
+  {
+    "label": "reminder",
+    "rows": [
+      {
+        "name": "Greta, Sweettooth Scourge",
+        "face_index": 0,
+        "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
+      },
+      {
+        "name": "Seedship Agrarian",
+        "face_index": 0,
+        "oracle_text": "Whenever this creature becomes tapped, create a Lander token. (It's an artifact with \"{2}, {T}, Sacrifice this token: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\")\nLandfall — Whenever a land you control enters, put a +1/+1 counter on this creature."
+      },
+      {
+        "name": "Witch's Mark",
+        "face_index": 0,
+        "oracle_text": "You may discard a card. If you do, draw two cards.\nCreate a Wicked Role token attached to up to one target creature you control. (If you control another Role on it, put that one into the graveyard. Enchanted creature gets +1/+1. When this token is put into a graveyard, each opponent loses 1 life.)"
+      },
+      {
+        "name": "Spider-Ham, Peter Porker",
+        "face_index": 0,
+        "oracle_text": "When Spider-Ham enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\nAnimal May-Ham — Other Spiders, Boars, Bats, Bears, Birds, Cats, Dogs, Frogs, Jackals, Lizards, Mice, Otters, Rabbits, Raccoons, Rats, Squirrels, Turtles, and Wolves you control get +1/+1."
+      }
+    ]
+  },
+  {
+    "label": "mode",
+    "rows": [
+      {
+        "name": "Kykar, Zephyr Awakener",
+        "face_index": 0,
+        "oracle_text": "Flying\nWhenever you cast a noncreature spell, choose one —\n• Exile another target creature you control. Return that card to the battlefield under its owner's control at the beginning of the next end step.\n• Create a 1/1 white Spirit creature token with flying."
+      },
+      {
+        "name": "Wail of the Forgotten",
+        "face_index": 0,
+        "oracle_text": "Descend 8 — Choose one. If there are eight or more permanent cards in your graveyard as you cast this spell, choose one or more instead.\n• Return target nonland permanent to its owner's hand.\n• Target opponent discards a card.\n• Look at the top three cards of your library. Put one of them into your hand and the rest into your graveyard."
+      },
+      {
+        "name": "Decoy Ploy",
+        "face_index": 0,
+        "oracle_text": "Choose one or both —\n• Return target Villain card from your graveyard to your hand.\n• Return target Hero card from your graveyard to your hand."
+      },
+      {
+        "name": "Drill Too Deep",
+        "face_index": 0,
+        "oracle_text": "Choose one —\n• Put five charge counters on target Spacecraft or Planet you control.\n• Destroy target artifact."
+      }
+    ]
+  },
+  {
+    "label": "chapter",
+    "rows": [
+      {
+        "name": "Summon: Primal Odin",
+        "face_index": 0,
+        "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Gungnir — Destroy target creature an opponent controls.\nII — Zantetsuken — This creature gains \"Whenever this creature deals combat damage to a player, that player loses the game.\"\nIII — Hall of Sorrow — Draw two cards. Each player loses 2 life."
+      },
+      {
+        "name": "Summon: Anima",
+        "face_index": 0,
+        "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after IV.)\nI, II, III — Pain — You draw a card and you lose 1 life.\nIV — Oblivion — Each opponent sacrifices a creature of their choice and loses 3 life.\nMenace"
+      },
+      {
+        "name": "Summon: Esper Ramuh",
+        "face_index": 0,
+        "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Judgment Bolt — This creature deals damage equal to the number of noncreature, nonland cards in your graveyard to target creature an opponent controls.\nII, III — Wizards you control get +1/+0 until end of turn."
+      },
+      {
+        "name": "The Clone Saga",
+        "face_index": 0,
+        "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)\nI — Surveil 3.\nII — When you next cast a creature spell this turn, copy it, except the copy isn't legendary.\nIII — Choose a card name. Whenever a creature with the chosen name deals combat damage to a player this turn, draw a card."
+      }
+    ]
+  },
+  {
+    "label": "loyalty",
+    "rows": [
+      {
+        "name": "Kaya, Spirits' Justice",
+        "face_index": 0,
+        "oracle_text": "Whenever one or more creatures you control and/or creature cards in your graveyard are put into exile, you may choose a creature card from among them. Until end of turn, target token you control becomes a copy of it, except it has flying.\n+2: Surveil 2, then exile a card from a graveyard.\n+1: Create a 1/1 white and black Spirit creature token with flying.\n−2: Exile target creature you control. For each other player, exile up to one target creature that player controls."
+      },
+      {
+        "name": "Ral Zarek, Guest Lecturer",
+        "face_index": 0,
+        "oracle_text": "+1: Surveil 2.\n−1: Any number of target players each discard a card.\n−2: Return target creature card with mana value 3 or less from your graveyard to the battlefield.\n−7: Flip five coins. Target opponent skips their next X turns, where X is the number of coins that came up heads."
+      },
+      {
+        "name": "Ajani, Caller of the Pride",
+        "face_index": 0,
+        "oracle_text": "+1: Put a +1/+1 counter on up to one target creature.\n−3: Target creature gains flying and double strike until end of turn.\n−8: Create X 2/2 white Cat creature tokens, where X is your life total."
+      },
+      {
+        "name": "Ajani, Outland Chaperone",
+        "face_index": 0,
+        "oracle_text": "+1: Create a 1/1 green and white Kithkin creature token.\n−2: Ajani deals 4 damage to target tapped creature.\n−8: Look at the top X cards of your library, where X is your life total. You may put any number of nonland permanent cards with mana value 3 or less from among them onto the battlefield. Then shuffle."
+      }
+    ]
+  },
+  {
+    "label": "flavor",
+    "rows": [
+      {
+        "name": "Seedship Agrarian",
+        "face_index": 0,
+        "oracle_text": "Whenever this creature becomes tapped, create a Lander token. (It's an artifact with \"{2}, {T}, Sacrifice this token: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\")\nLandfall — Whenever a land you control enters, put a +1/+1 counter on this creature."
+      },
+      {
+        "name": "Spider-Ham, Peter Porker",
+        "face_index": 0,
+        "oracle_text": "When Spider-Ham enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\nAnimal May-Ham — Other Spiders, Boars, Bats, Bears, Birds, Cats, Dogs, Frogs, Jackals, Lizards, Mice, Otters, Rabbits, Raccoons, Rats, Squirrels, Turtles, and Wolves you control get +1/+1."
+      },
+      {
+        "name": "Sagu Pummeler",
+        "face_index": 0,
+        "oracle_text": "Reach\nRenew — {4}{G}, Exile this card from your graveyard: Put two +1/+1 counters and a reach counter on target creature. Activate only as a sorcery."
+      },
+      {
+        "name": "Unfortunate Accident",
+        "face_index": 0,
+        "oracle_text": "Spree (Choose one or more additional costs.)\n+ {2}{B} — Destroy target creature.\n+ {1} — Create a 1/1 red Mercenary creature token with \"{T}: Target creature you control gets +1/+0 until end of turn. Activate only as a sorcery.\""
+      }
+    ]
+  },
+  {
+    "label": "multiline",
+    "rows": [
+      {
+        "name": "Greta, Sweettooth Scourge",
+        "face_index": 0,
+        "oracle_text": "When Greta enters, create a Food token. (It's an artifact with \"{2}, {T}, Sacrifice this token: You gain 3 life.\")\n{G}, Sacrifice a Food: Put a +1/+1 counter on target creature. Activate only as a sorcery.\n{1}{B}, Sacrifice a Food: You draw a card and you lose 1 life."
+      },
+      {
+        "name": "Seedship Agrarian",
+        "face_index": 0,
+        "oracle_text": "Whenever this creature becomes tapped, create a Lander token. (It's an artifact with \"{2}, {T}, Sacrifice this token: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\")\nLandfall — Whenever a land you control enters, put a +1/+1 counter on this creature."
+      },
+      {
+        "name": "South Wind Avatar",
+        "face_index": 0,
+        "oracle_text": "Deathtouch\nWhenever another creature you control dies, you gain life equal to its toughness.\nWhenever you gain life, each opponent loses 1 life."
+      },
+      {
+        "name": "Escape Tunnel",
+        "face_index": 0,
+        "oracle_text": "{T}, Sacrifice this land: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle.\n{T}, Sacrifice this land: Target creature with power 2 or less can't be blocked this turn."
+      }
+    ]
+  },
+  {
+    "label": "empty",
+    "rows": [
+      {
+        "name": "Kaslem's Stonetree // Kaslem's Strider",
+        "face_index": 1,
+        "oracle_text": ""
+      },
+      {
+        "name": "Highborn Vampire",
+        "face_index": 0,
+        "oracle_text": ""
+      },
+      {
+        "name": "Swab Goblin",
+        "face_index": 0,
+        "oracle_text": ""
+      },
+      {
+        "name": "Fire Elemental",
+        "face_index": 0,
+        "oracle_text": ""
+      }
+    ]
+  }
+]

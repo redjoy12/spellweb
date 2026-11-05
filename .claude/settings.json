@@ -1,0 +1,6 @@
+{
+  "effortLevel": "medium",
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": false
+  }
+}
