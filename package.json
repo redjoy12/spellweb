@@ -60,5 +60,6 @@
   "description": "Synergy deck builder for MTG Arena Standard, best of one: make your own card links with Claude Code",
   "engines": {
     "node": ">=24"
-  }
+  },
+  "license": "MIT"
 }

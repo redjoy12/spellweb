@@ -282,4 +282,9 @@ npm run test:db
 - A command that needs an earlier step stops with an error and a stack trace, for example `graph -- --build` with no accepted rule set, or `deck` and `rate-fit` with no build. Do the steps in the order of this guide.
 - Some code comments name design notes that are not in this repo.
 - `npm audit` reports known faults in some development packages. The app runs on your own computer only.
-- The repo has no license file yet.
+
+## License
+
+MIT. See `LICENSE`.
+
+Spellweb is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.
