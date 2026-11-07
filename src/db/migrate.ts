@@ -861,6 +861,17 @@ export const MIGRATIONS: Migration[] = [
       )`);
     },
   },
+  {
+    id: 27,
+    name: 'arena_cards.primary_card: the Arena ID of a pool card that Scryfall gives no arena_id (fix of 2026-11-07)',
+    up(db) {
+      if (!tableHasColumn(db, 'arena_cards', 'primary_card')) db.exec('ALTER TABLE arena_cards ADD COLUMN primary_card INTEGER NOT NULL DEFAULT 0');
+      db.exec('CREATE INDEX IF NOT EXISTS idx_arena_cards_oracle ON arena_cards(oracle_id)');
+      // The kept rows have no flag yet. The next scan then loads the card file again, and that load
+      // fills the missing arena_id of the pool cards (src/pool/arenaIds.ts).
+      db.exec('UPDATE game_scan_state SET card_file = NULL');
+    },
+  },
 ];
 
 export function appliedMigrations(db: DatabaseSync): number[] {

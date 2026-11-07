@@ -253,12 +253,16 @@ describe('the card table', () => {
   beforeEach(() => { dir = mkdtempSync(join(tmpdir(), 'arena-cards-')); });
   afterEach(() => rmSync(dir, { recursive: true, force: true }));
 
-  function cardFile(path: string): void {
+  /** `primary` false gives a card file with no IsPrimaryCard column. */
+  function cardFile(path: string, primary = true): void {
     const f = new DatabaseSync(path);
-    f.exec('CREATE TABLE Cards (GrpId INT, TitleId INT, IsToken INT); CREATE TABLE Localizations_enUS (LocId INT, Formatted INT, Loc TEXT)');
-    const add = f.prepare('INSERT INTO Cards VALUES (?, ?, ?)');
+    f.exec(`CREATE TABLE Cards (GrpId INT, TitleId INT, IsToken INT${primary ? ', IsPrimaryCard INT' : ''}); CREATE TABLE Localizations_enUS (LocId INT, Formatted INT, Loc TEXT)`);
+    const add = f.prepare(`INSERT INTO Cards VALUES (?, ?, ?${primary ? ', ?' : ''})`);
     const loc = f.prepare('INSERT INTO Localizations_enUS VALUES (?, ?, ?)');
-    for (const [grp, title, token] of [[1, 10, 0], [2, 10, 0], [3, 20, 0], [4, 30, 1], [5, 40, 0], [6, 50, 0], [7, 99, 0]] as const) add.run(grp, title, token);
+    // GrpId 2 is a later printing and GrpId 3 a back face, so neither is primary.
+    for (const [grp, title, token, first] of [[1, 10, 0, 1], [2, 10, 0, 0], [3, 20, 0, 0], [4, 30, 1, 0], [5, 40, 0, 1], [6, 50, 0, 1], [7, 99, 0, 0]] as const) {
+      add.run(grp, title, token, ...(primary ? [first] : []));
+    }
     loc.run(10, 0, 'Thought-Stalker Warlock');
     loc.run(10, 1, '<nobr>Thought-Stalker</nobr> Warlock');
     loc.run(20, 1, 'Back Face');
@@ -268,13 +272,20 @@ describe('the card table', () => {
     f.close();
   }
 
-  it('resolves each printing by name, a face, a split card, a token and a card outside this app', () => {
+  /** Cards a, b and c. Only c has a Scryfall `arena_id`. Card b has a back face. */
+  function appCards(): DatabaseSync {
     const db = testDb();
-    const card = (id: string, name: string) => db.prepare(`INSERT INTO cards (oracle_id, name, layout, cmc, type_line, colors, color_identity, keywords, rarity, set_code, collector_number, oracle_hash, first_seen_snapshot_id, last_seen_snapshot_id) VALUES (?, ?, 'normal', 0, 'x', '[]', '[]', '[]', 'c', 's', '1', 'h', 1, 1)`).run(id, name);
-    card('a', 'Thought-Stalker Warlock');
-    card('b', 'Front Face // Back Face');
+    const card = (id: string, name: string, arena: number | null) => db.prepare(`INSERT INTO cards (oracle_id, name, layout, cmc, type_line, colors, color_identity, keywords, rarity, arena_id, set_code, collector_number, oracle_hash, first_seen_snapshot_id, last_seen_snapshot_id) VALUES (?, ?, 'normal', 0, 'x', '[]', '[]', '[]', 'c', ?, 's', '1', 'h', 1, 1)`).run(id, name, arena);
+    card('a', 'Thought-Stalker Warlock', null);
+    card('b', 'Front Face // Back Face', null);
     db.prepare(`INSERT INTO card_faces (oracle_id, face_index, name, type_line, colors) VALUES ('b', 1, 'Back Face', 'x', '[]')`).run();
-    card('c', 'Dusk // Dawn');
+    card('c', 'Dusk // Dawn', 777);
+    return db;
+  }
+  const arenaIds = (db: DatabaseSync) => Object.fromEntries((db.prepare('SELECT oracle_id, arena_id FROM cards ORDER BY oracle_id').all() as Array<{ oracle_id: string; arena_id: number | null }>).map((r) => [r.oracle_id, r.arena_id]));
+
+  it('resolves each printing by name, a face, a split card, a token and a card outside this app', () => {
+    const db = appCards();
     const file = join(dir, 'cards.mtga');
     cardFile(file);
     expect(loadCardTable(db, file)).toBe(6);
@@ -286,6 +297,25 @@ describe('the card table', () => {
     expect(names.get(5)!.oracle_id).toBe('c');
     expect(names.get(6)).toEqual({ name: 'Not In This App', oracle_id: null, token: false });
     expect(names.get(8)!.name).toBe('Unknown card 8');
+  });
+
+  it('gives a card with no arena_id its lowest primary Arena ID, and keeps a Scryfall arena_id', () => {
+    const db = appCards();
+    const file = join(dir, 'cards.mtga');
+    cardFile(file);
+    loadCardTable(db, file);
+    // a: GrpId 1, not the later printing 2. b: only a back face, which is not primary (as a meld result). c: Scryfall wins.
+    expect(arenaIds(db)).toEqual({ a: 1, b: null, c: 777 });
+    expect((db.prepare('SELECT arena_id FROM arena_cards WHERE primary_card = 1 ORDER BY arena_id').all() as Array<{ arena_id: number }>).map((r) => r.arena_id)).toEqual([1, 5, 6]);
+  });
+
+  it('fills nothing from a card file with no IsPrimaryCard column', () => {
+    const db = appCards();
+    const file = join(dir, 'cards.mtga');
+    cardFile(file, false);
+    expect(loadCardTable(db, file)).toBe(6);
+    expect(arenaIds(db)).toEqual({ a: null, b: null, c: 777 });
+    expect(namesOf(db, [1]).get(1)!.oracle_id).toBe('a');
   });
 
   it('takes the newest card file of an install', () => {

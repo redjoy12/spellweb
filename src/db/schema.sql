@@ -797,12 +797,16 @@ CREATE TABLE IF NOT EXISTS card_rates (
 -- `games`: one row for each game. `file` is the name of its kept messages in data/game-logs/, so a
 -- parser fix can read the game again. `game_json` holds Arena IDs. No screen name and no account ID
 -- are in these tables. The deck search reads none of them.
+-- Migration 27: `primary_card` is `IsPrimaryCard` of the card file. The lowest primary ID of an
+-- oracle_id fills `cards.arena_id` when Scryfall gives none (src/pool/arenaIds.ts).
 CREATE TABLE IF NOT EXISTS arena_cards (
-  arena_id   INTEGER PRIMARY KEY,
-  name       TEXT    NOT NULL,
-  oracle_id  TEXT    REFERENCES cards(oracle_id),
-  is_token   INTEGER NOT NULL
+  arena_id     INTEGER PRIMARY KEY,
+  name         TEXT    NOT NULL,
+  oracle_id    TEXT    REFERENCES cards(oracle_id),
+  is_token     INTEGER NOT NULL,
+  primary_card INTEGER NOT NULL DEFAULT 0
 );
+CREATE INDEX IF NOT EXISTS idx_arena_cards_oracle ON arena_cards(oracle_id);
 
 CREATE TABLE IF NOT EXISTS game_log_files (
   log_id   TEXT    PRIMARY KEY,

@@ -1,6 +1,7 @@
 import type { DatabaseSync } from 'node:sqlite';
 import type { DiffEntry } from './diff.js';
 import type { CardFace } from '../scryfall/normalize.js';
+import { fillArenaIds, linkArenaNames } from './arenaIds.js';
 
 interface SnapshotCardRow {
   oracle_id: string; name: string; layout: string; mana_cost: string | null; cmc: number;
@@ -174,6 +175,12 @@ export function applyDiff(
         enqueue.run(e.oracle_id, 'oracle_changed', now, diffId);
       }
     }
+
+    // The upsert above wrote the Scryfall `arena_id`, which is null for a card that Scryfall has
+    // not given an Arena ID yet. The Arena card file (`arena_cards`) gives the ID of such a card.
+    // A new card has no Arena card until its name is linked again, so the link runs first.
+    linkArenaNames(db);
+    fillArenaIds(db);
 
     db.exec('COMMIT');
     return diffId;

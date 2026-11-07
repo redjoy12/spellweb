@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { api, type ChatMessage, type DeckChatView, type SwapBox } from '../api.js';
 import { Icon } from './Icon.js';
+import { ManaCost } from './ManaCost.js';
 
 /**
  * The talk about one deck (deck chat design sec. 2). The page reads new messages once each second
@@ -12,13 +13,23 @@ const POLL_MS = 1000;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const tokens = (n: number) => (n >= 1e6 ? `${Number((n / 1e6).toFixed(1))}M` : n >= 1000 ? `${Math.round(n / 1000)}K` : String(n));
 
-/** A text with each `[[Name]]` marked for the hover zoom. */
+/** The parts of a message: `[[Name]]`, a Markdown link `[text](https://...)`, or a run of mana symbols `{1}{R}`. */
+const PARTS = /(\[\[[^[\]]+\]\]|\[[^[\]]+\]\(https?:\/\/[^\s()]+\)|(?:\{[^{}\s]{1,8}\})+)/;
+const LINK = /^\[([^[\]]+)\]\((https?:\/\/[^\s()]+)\)$/;
+const MANA = /^(?:\{[^{}\s]{1,8}\})+$/;
+
+/** A text with each `[[Name]]` marked for the hover zoom, each Markdown link as a link, and mana symbols as pips. */
 export function Named({ text, cards }: { text: string; cards?: Record<string, string> | undefined }) {
-  const parts: ReactNode[] = text.split(/(\[\[[^[\]]+\]\])/).map((p, i) => {
+  const parts: ReactNode[] = text.split(PARTS).map((p, i) => {
     const name = /^\[\[(.+)\]\]$/.exec(p)?.[1];
-    if (!name) return p;
-    const id = cards?.[name];
-    return <span key={i} className="dk-chat-card" {...(id ? { 'data-card-id': id } : { 'data-card-name': name })}>{name}</span>;
+    if (name) {
+      const id = cards?.[name];
+      return <span key={i} className="dk-chat-card" {...(id ? { 'data-card-id': id } : { 'data-card-name': name })}>{name}</span>;
+    }
+    const link = LINK.exec(p);
+    if (link) return <a key={i} href={link[2]} target="_blank" rel="noreferrer noopener">{link[1]}</a>;
+    if (MANA.test(p)) return <ManaCost key={i} cost={p} />;
+    return p;
   });
   return <>{parts}</>;
 }
