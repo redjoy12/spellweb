@@ -1,7 +1,5 @@
 # Spellweb
 
-**Language:** ASD-STE100
-
 Spellweb is a synergy deck builder for Magic: The Gathering Arena, Standard, best of one. It reads the text of each card, finds the pairs of cards that work together, and builds 60-card decks from these links.
 
 This repo has the code and the default settings only. It has no card data, no links and no answers. You make your own links with Claude Code, and you correct them while you build decks.
